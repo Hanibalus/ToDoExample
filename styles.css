@@ -84,3 +84,34 @@ body{
 /* small style for theme toggle button */
 .btn-theme{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:6px 8px;border-radius:8px;cursor:pointer}
 .dark .btn-theme{border-color:rgba(255,255,255,0.08)}
+
+/* Undo snackbar */
+.snackbar{
+  position:fixed;
+  left:50%;
+  bottom:28px;
+  transform:translateX(-50%) translateY(12px);
+  background:var(--card);
+  color:var(--text);
+  border-radius:10px;
+  padding:10px 12px;
+  box-shadow:0 10px 30px rgba(2,6,23,0.12);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:220px;
+  max-width:90%;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s,transform .18s;
+}
+.snackbar.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.snackbar-message{font-size:14px;color:var(--text)}
+.snackbar-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.snackbar-action{background:transparent;border:none;color:var(--accent-2);font-weight:600;cursor:pointer;padding:8px 10px;border-radius:8px}
+.snackbar-action:focus{outline:2px solid rgba(79,70,229,0.16);outline-offset:2px}
+.snackbar-close{background:transparent;border:none;color:var(--muted);cursor:pointer;padding:6px;border-radius:6px}
+
+@media (max-width:520px){
+  .snackbar{left:12px;right:12px;transform:translateX(0) translateY(12px);min-width:unset}
+}
