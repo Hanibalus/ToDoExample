@@ -10,7 +10,7 @@ body{
   margin:0;
   font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   background:var(--bg);
-  color:#111827;
+  color:var(--text);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -47,3 +47,16 @@ h1{margin:0 0 12px 0;font-size:20px}
   body{padding:16px}
   .container{padding:16px}
 }
+
+/* dark theme variables */
+.dark{
+  --bg:#0b1220;
+  --card:#0f1724;
+  --muted:#9ca3af;
+  --accent:#60a5fa;
+  --text:#e6eef8;
+}
+
+/* small style for theme toggle button */
+.btn-theme{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:6px 8px;border-radius:8px;cursor:pointer}
+.dark .btn-theme{border-color:rgba(255,255,255,0.08)}

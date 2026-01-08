@@ -120,6 +120,28 @@
     }
   });
 
+  // theme toggle + persistence
+  const THEME_KEY = 'theme_pref_v1';
+  const themeToggle = document.getElementById('theme-toggle');
+  function setTheme(theme){
+    const t = theme === 'dark' ? 'dark' : 'light';
+    if(t === 'dark') document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark');
+    try{ localStorage.setItem(THEME_KEY, t); }catch(e){}
+    if(themeToggle){
+      themeToggle.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+      themeToggle.textContent = t === 'dark' ? '☀️' : '🌙';
+    }
+  }
+  // initialize theme from storage or system preference
+  try{
+    const stored = localStorage.getItem(THEME_KEY);
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(stored || (prefersDark ? 'dark' : 'light'));
+  }catch(e){ setTheme('light'); }
+  if(themeToggle){
+    themeToggle.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
+  }
+
   // initial render
   render();
 
