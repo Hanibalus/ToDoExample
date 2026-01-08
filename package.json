@@ -1,0 +1,14 @@
+﻿{
+  "name": "todo-example",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:accessibility": "npx playwright test tests/visual-accessibility.test.js --project=chromium",
+    "test": "npx playwright test"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.0.2",
+    "playwright": "^1.37.0",
+    "http-server": "^14.1.1"
+  }
+}
