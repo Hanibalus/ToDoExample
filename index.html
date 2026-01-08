@@ -24,6 +24,13 @@
       </form>
 
       <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
+      <div id="undo-snackbar" class="snackbar" aria-hidden="true" role="status" aria-live="polite">
+        <div class="snackbar-message">Todo deleted</div>
+        <div class="snackbar-actions">
+          <button class="snackbar-action" type="button">Undo</button>
+          <button class="snackbar-close" type="button" aria-label="Dismiss">✕</button>
+        </div>
+      </div>
     </main>
 
     <script src="app.js"></script>

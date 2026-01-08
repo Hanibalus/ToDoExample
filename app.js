@@ -103,11 +103,71 @@
     render();
   }
 
+  // Undo/delete buffer
+  let undoTimer = null;
+  let buffered = null;
+
   function removeTodo(id){
-    let todos = readTodos();
-    todos = todos.filter(t => t.id !== id);
+    const todos = readTodos();
+    const idx = todos.findIndex(t => t.id === id);
+    if(idx === -1) return;
+
+    const [item] = todos.splice(idx, 1);
     writeTodos(todos);
     render();
+
+    // buffer the removed item and show undo snackbar
+    buffered = { item, index: idx };
+    showSnackbar();
+  }
+
+  function showSnackbar(){
+    const sb = document.getElementById('undo-snackbar');
+    if(!sb) return;
+    const action = sb.querySelector('.snackbar-action');
+    const close = sb.querySelector('.snackbar-close');
+
+    // set message
+    const msg = sb.querySelector('.snackbar-message');
+    msg.textContent = 'Todo deleted';
+
+    action.onclick = () => {
+      undoDelete();
+      action.focus();
+    };
+
+    close.onclick = () => {
+      clearSnackbar();
+    };
+
+    sb.classList.add('show');
+    sb.setAttribute('aria-hidden', 'false');
+
+    // auto-dismiss after 6s
+    if(undoTimer) clearTimeout(undoTimer);
+    undoTimer = setTimeout(() => {
+      clearSnackbar();
+      buffered = null;
+    }, 6000);
+  }
+
+  function clearSnackbar(){
+    const sb = document.getElementById('undo-snackbar');
+    if(!sb) return;
+    sb.classList.remove('show');
+    sb.setAttribute('aria-hidden', 'true');
+    if(undoTimer) { clearTimeout(undoTimer); undoTimer = null; }
+  }
+
+  function undoDelete(){
+    if(!buffered) return;
+    const todos = readTodos();
+    // restore at the original index
+    todos.splice(buffered.index, 0, buffered.item);
+    writeTodos(todos);
+    render();
+    clearSnackbar();
+    buffered = null;
   }
 
   form.addEventListener('submit', (e) => {
