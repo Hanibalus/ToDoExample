@@ -26,6 +26,7 @@
     const li = document.createElement('li');
     li.className = 'todo-item';
     li.dataset.id = todo.id;
+    li.classList.add('enter');
 
     const left = document.createElement('div');
     left.style.display = 'flex';
@@ -39,6 +40,7 @@
       checkbox.classList.add('checked');
     }
     checkbox.addEventListener('click', () => toggleCompleted(todo.id));
+    checkbox.setAttribute('aria-label', todo.completed ? 'Mark as not completed' : 'Mark as completed');
 
     const span = document.createElement('span');
     span.className = 'todo-text';
@@ -75,7 +77,12 @@
     }
 
     const frag = document.createDocumentFragment();
-    todos.forEach(t => frag.appendChild(createTodoElement(t)));
+    todos.forEach(t => {
+      const el = createTodoElement(t);
+      // small stagger for entrance
+      el.style.animationDelay = (Math.min(6, todos.indexOf(t)) * 30) + 'ms';
+      frag.appendChild(el);
+    });
     list.appendChild(frag);
   }
 

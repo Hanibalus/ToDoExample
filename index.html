@@ -8,10 +8,15 @@
   </head>
   <body>
     <main class="container">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-        <h1 style="margin:0">Todo List</h1>
-        <button id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle theme" class="btn-theme">🌙</button>
-      </div>
+      <header class="app-header">
+        <div>
+          <h1 class="title">Todo List</h1>
+          <p class="subtitle">A minimal, focused todo app — now with a refreshed UI.</p>
+        </div>
+        <div>
+          <button id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle theme" class="btn-theme">🌙</button>
+        </div>
+      </header>
 
       <form id="todo-form" class="todo-form" aria-label="Add todo">
         <input id="todo-input" type="text" placeholder="Add a new todo" aria-label="Todo text" required>
