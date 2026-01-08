@@ -1,11 +1,7 @@
 name: Accessibility (Playwright + axe)
 
 on:
-  pull_request:
   workflow_dispatch:
-  schedule:
-    # daily run at 02:00 UTC — useful to catch regressions on the main branch
-    - cron: '0 2 * * *'
 
 jobs:
   accessibility:
