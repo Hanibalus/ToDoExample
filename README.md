@@ -1,5 +1,7 @@
 # Simple Todo App
 
+![Accessibility CI](https://github.com/Hanibalus/ToDoExample/actions/workflows/accessibility.yml/badge.svg)
+
 Minimal todo app using plain HTML, CSS, and JavaScript. Todos are persisted in the browser `localStorage`.
 
 How to open
