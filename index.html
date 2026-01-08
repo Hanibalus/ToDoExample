@@ -23,6 +23,24 @@
         <button type="submit">Add</button>
       </form>
 
+      <div class="todo-toolbar" aria-hidden="false">
+        <div class="toolbar-left">
+          <div class="filter-group" role="tablist" aria-label="Filter todos">
+            <button type="button" data-filter="all" class="filter-btn" aria-pressed="true">All</button>
+            <button type="button" data-filter="active" class="filter-btn" aria-pressed="false">Active</button>
+            <button type="button" data-filter="completed" class="filter-btn" aria-pressed="false">Completed</button>
+          </div>
+        </div>
+        <div class="toolbar-right">
+          <input id="todo-search" type="search" placeholder="Search todos" aria-label="Search todos">
+          <select id="todo-sort" aria-label="Sort todos">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="alpha">Alphabetical</option>
+          </select>
+        </div>
+      </div>
+
       <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
       <div id="undo-snackbar" class="snackbar" aria-hidden="true" role="status" aria-live="polite">
         <div class="snackbar-message">Todo deleted</div>

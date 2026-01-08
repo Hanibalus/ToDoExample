@@ -3,6 +3,9 @@
   const input = document.getElementById('todo-input');
   const list = document.getElementById('todo-list');
   const STORAGE_KEY = 'simple_todos_v1';
+  const FILTER_KEY = 'todos_filter_v1';
+  const SEARCH_KEY = 'todos_search_v1';
+  const SORT_KEY = 'todos_sort_v1';
 
   function readTodos(){
     try{
@@ -19,6 +22,62 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
     }catch(e){
       console.error('Failed to write todos', e);
+    }
+  }
+
+  // toolbar elements (may be absent in older versions)
+  const searchInput = document.getElementById('todo-search');
+  const sortSelect = document.getElementById('todo-sort');
+  const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+
+  function getToolbarState(){
+    try{
+      return {
+        filter: localStorage.getItem(FILTER_KEY) || 'all',
+        search: localStorage.getItem(SEARCH_KEY) || '',
+        sort: localStorage.getItem(SORT_KEY) || 'newest'
+      };
+    }catch(e){
+      return { filter: 'all', search: '', sort: 'newest' };
+    }
+  }
+
+  function setToolbarState(state){
+    try{
+      if(state.filter !== undefined) localStorage.setItem(FILTER_KEY, state.filter);
+      if(state.search !== undefined) localStorage.setItem(SEARCH_KEY, state.search);
+      if(state.sort !== undefined) localStorage.setItem(SORT_KEY, state.sort);
+    }catch(e){}
+  }
+
+  function initToolbar(){
+    const s = getToolbarState();
+    // initialize filter buttons
+    filterButtons.forEach(btn => {
+      const f = btn.getAttribute('data-filter');
+      btn.setAttribute('aria-pressed', f === s.filter ? 'true' : 'false');
+      btn.addEventListener('click', () => {
+        setToolbarState({ filter: f });
+        // update aria-pressed
+        filterButtons.forEach(b => b.setAttribute('aria-pressed', b.getAttribute('data-filter') === f ? 'true' : 'false'));
+        render();
+      });
+    });
+
+    if(searchInput){
+      searchInput.value = s.search || '';
+      searchInput.addEventListener('input', () => {
+        setToolbarState({ search: searchInput.value });
+        render();
+      });
+    }
+
+    if(sortSelect){
+      sortSelect.value = s.sort || 'newest';
+      sortSelect.addEventListener('change', () => {
+        setToolbarState({ sort: sortSelect.value });
+        render();
+      });
     }
   }
 
@@ -66,7 +125,27 @@
   }
 
   function render(){
-    const todos = readTodos();
+    let todos = readTodos();
+    // apply filter/search/sort from toolbar state
+    const s = getToolbarState();
+
+    // filter
+    if(s.filter === 'active') todos = todos.filter(t => !t.completed);
+    else if(s.filter === 'completed') todos = todos.filter(t => t.completed);
+
+    // search (case-insensitive substring)
+    if(s.search && s.search.trim() !== ''){
+      const q = s.search.trim().toLowerCase();
+      todos = todos.filter(t => t.text.toLowerCase().includes(q));
+    }
+
+    // sort
+    if(s.sort === 'oldest'){
+      todos = todos.slice().reverse();
+    }else if(s.sort === 'alpha'){
+      todos = todos.slice().sort((a,b) => a.text.localeCompare(b.text));
+    } // newest is the default (current storage order)
+
     list.innerHTML = '';
     if(todos.length === 0){
       const p = document.createElement('p');
@@ -77,10 +156,10 @@
     }
 
     const frag = document.createDocumentFragment();
-    todos.forEach(t => {
+    todos.forEach((t, i) => {
       const el = createTodoElement(t);
       // small stagger for entrance
-      el.style.animationDelay = (Math.min(6, todos.indexOf(t)) * 30) + 'ms';
+      el.style.animationDelay = (Math.min(6, i) * 30) + 'ms';
       frag.appendChild(el);
     });
     list.appendChild(frag);
@@ -209,7 +288,8 @@
     themeToggle.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
   }
 
-  // initial render
+  // initialize toolbar and render
+  initToolbar();
   render();
 
 })();
