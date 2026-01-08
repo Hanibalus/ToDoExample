@@ -44,7 +44,7 @@ body{
 .todo-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
 .todo-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:10px;border:1px solid rgba(15,23,42,0.04);background:linear-gradient(180deg,#ffffff,#fbfdff);transition:transform .14s,box-shadow .14s,opacity .12s}
 .todo-item:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,6,23,0.06)}
-.todo-text{color:var(--text);font-size:15px}
+.todo-text{color:var(--text);font-size:15px;font-weight:600}
 .todo-text.completed{text-decoration:line-through;color:var(--muted)}
 
 .todo-checkbox{
