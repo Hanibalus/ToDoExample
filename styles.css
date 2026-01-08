@@ -59,9 +59,19 @@ body{
 .btn-delete:active{transform:translateY(1px)}
 .muted{color:var(--muted);font-size:13px}
 
+/* toolbar */
+.todo-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.filter-group{display:flex;gap:8px}
+.filter-btn{background:transparent;border:1px solid rgba(15,23,42,0.06);padding:8px 10px;border-radius:8px;cursor:pointer}
+.filter-btn[aria-pressed="true"]{background:linear-gradient(180deg,var(--accent),var(--accent-2));color:white;border-color:transparent}
+#todo-search{padding:8px 10px;border-radius:8px;border:1px solid rgba(15,23,42,0.06)}
+#todo-sort{padding:8px 10px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);background:white}
+
 @media (max-width:520px){
   body{padding:18px}
   .container{padding:18px}
+  .todo-toolbar{flex-direction:column;align-items:stretch}
+  .toolbar-right{display:flex;gap:8px}
 }
 
 /* entrance animation */
