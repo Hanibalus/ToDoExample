@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./todos.db
+      - DEBUG=True
+    volumes:
+      - ./app:/app/app
+      - ./tests:/app/tests
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  test:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    volumes:
+      - ./app:/app/app
+      - ./tests:/app/tests
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:///:memory:
+    command: pytest -v --cov=app
