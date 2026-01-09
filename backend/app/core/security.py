@@ -4,7 +4,7 @@ from passlib.context import CryptContext
 import secrets
 from app.config import settings
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
 
 def create_access_token(user_id: str) -> str:

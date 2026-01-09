@@ -23,7 +23,7 @@ def hash_token(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()
 
 
-@router.post("/register", response_model=TokenResponse)
+@router.post("/register", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
 async def register(
     data: RegisterRequest,
     db: AsyncSession = Depends(get_db_session)

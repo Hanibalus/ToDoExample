@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthCredentials
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
 from jose import JWTError
 from app.core.security import decode_token
@@ -10,7 +10,7 @@ security = HTTPBearer()
 
 
 async def get_current_user(
-    credentials: HTTPAuthCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),
     db: AsyncSession = Depends(get_db_session)
 ) -> User:
     """Get current authenticated user from JWT token"""

@@ -15,7 +15,7 @@ from app.deps import get_current_user
 router = APIRouter()
 
 
-@router.get("/todos", response_model=list[TodoResponse])
+@router.get("/", response_model=list[TodoResponse])
 async def list_todos(
     filter: str = "all",
     search: str | None = None,
@@ -62,7 +62,7 @@ async def list_todos(
     return result.scalars().all()
 
 
-@router.post("/todos", response_model=TodoResponse, status_code=201)
+@router.post("/", response_model=TodoResponse, status_code=201)
 async def create_todo(
     todo_data: TodoCreate,
     current_user: User = Depends(get_current_user),
@@ -80,7 +80,7 @@ async def create_todo(
     return new_todo
 
 
-@router.get("/todos/{todo_id}", response_model=TodoResponse)
+@router.get("/{todo_id}", response_model=TodoResponse)
 async def get_todo(
     todo_id: UUID,
     current_user: User = Depends(get_current_user),
@@ -105,7 +105,7 @@ async def get_todo(
     return todo
 
 
-@router.patch("/todos/{todo_id}", response_model=TodoResponse)
+@router.patch("/{todo_id}", response_model=TodoResponse)
 async def update_todo(
     todo_id: UUID,
     todo_update: TodoUpdate,
@@ -151,7 +151,7 @@ async def update_todo(
     return todo
 
 
-@router.delete("/todos/{todo_id}", status_code=204)
+@router.delete("/{todo_id}", status_code=204)
 async def delete_todo(
     todo_id: UUID,
     current_user: User = Depends(get_current_user),
@@ -178,7 +178,7 @@ async def delete_todo(
     await db.commit()
 
 
-@router.post("/todos/{todo_id}/restore", response_model=TodoResponse)
+@router.post("/{todo_id}/restore", response_model=TodoResponse)
 async def restore_todo(
     todo_id: UUID,
     current_user: User = Depends(get_current_user),
@@ -206,7 +206,7 @@ async def restore_todo(
     return todo
 
 
-@router.post("/todos/bulk", response_model=list[TodoResponse])
+@router.post("/bulk", response_model=list[TodoResponse])
 async def bulk_create_todos(
     todos_data: list[TodoCreate],
     current_user: User = Depends(get_current_user),
@@ -231,7 +231,7 @@ async def bulk_create_todos(
     return new_todos
 
 
-@router.post("/todos/sync", response_model=TodoSyncResponse)
+@router.post("/sync", response_model=TodoSyncResponse)
 async def sync_todos(
     sync_request: TodoSyncRequest,
     current_user: User = Depends(get_current_user),
